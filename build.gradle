@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'groovy'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+    maven {
+        url = 'repo'
+    }
+}
+
+dependencies {
+    implementation 'netflix:foo-client:latest.release'
+    implementation 'netflix:bar-client:latest.release'
+    implementation 'com.google.guava:guava:19.0'
+}
+
+application {
+    mainClass.set 'info.perezalcolea.dependency.management.App'
+}
+
+publishing {
+    publications {
+        myPublication(MavenPublication) {
+            groupId = 'info.perezalcolea'
+            artifactId = 'myapp'
+            version = '1.0.0'
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = "Build"
+            url = "$buildDir/mavenRepo"
+        }
+    }
+}
