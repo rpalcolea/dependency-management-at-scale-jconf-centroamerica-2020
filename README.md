@@ -28,6 +28,7 @@ git checkout main
 You should see the following dependency tree:
 
 ```
+compileClasspath - Compile classpath for source set 'main'.
 +--- netflix:foo-client:latest.release -> 1.0.1
 |    \--- com.amazonaws:aws-java-sdk-dynamodb:1.11.870
 |         +--- com.amazonaws:aws-java-sdk-s3:1.11.870
@@ -51,13 +52,68 @@ You should see the following dependency tree:
 |         |    \--- com.amazonaws:jmespath-java:1.11.870 (*)
 |         +--- com.amazonaws:aws-java-sdk-core:1.11.870 (*)
 |         \--- com.amazonaws:jmespath-java:1.11.870 (*)
-\--- netflix:bar-client:latest.release -> 1.0.0
-     \--- com.amazonaws:aws-java-sdk-sqs:1.11.847
-          +--- com.amazonaws:aws-java-sdk-core:1.11.847 -> 1.11.870 (*)
-          \--- com.amazonaws:jmespath-java:1.11.847 -> 1.11.870 (*)
++--- netflix:bar-client:latest.release -> 1.0.0
+|    \--- com.amazonaws:aws-java-sdk-sqs:1.11.847
+|         +--- com.amazonaws:aws-java-sdk-core:1.11.847 -> 1.11.870 (*)
+|         \--- com.amazonaws:jmespath-java:1.11.847 -> 1.11.870 (*)
+\--- com.google.guava:guava:19.0
 ```
 
 Notice the changes in `com.amazonaws:aws-java-sdk-core:1.11.847 -> 1.11.870` because of Gradle's nature
+
+### shading
+
+Important changes to our `build.gradle`:
+
+Introduction of resolution-rules plugin:
+
+```
+  id 'com.github.johnrengelman.shadow' version '6.1.0'
+```
+
+Modify dependencies to introduce the `shadow` configuration: 
+
+```
+dependencies {
+    shadow 'netflix:foo-client:latest.release'
+    shadow 'netflix:bar-client:latest.release'
+    implementation 'com.google.guava:guava:19.0'
+}
+
+```
+
+In this scenario, Shadow creates a `shadow` configuration to declare these dependencies. Dependencies added to the shadow configuration are not bundled into the output JAR.
+
+Configure publication for shadow component:
+
+```
+group = 'info.perezalcolea'
+version = '1.0.0'
+
+publishing {
+    publications {
+        shadow(MavenPublication) { publication ->
+            artifactId = 'myapp'
+            project.shadow.component(publication)
+        }
+    }
+    repositories {
+        maven {
+            name = "Build"
+            url = "$buildDir/mavenRepo"
+        }
+    }
+}
+```
+
+Use `shadowJar` as main jar and relocate google guava:
+
+```
+shadowJar {
+    archiveClassifier.set null
+    relocate 'com.google', 'myapp.shaded.com.google'
+}
+```
 
 ### resolution-rules-usage
 
