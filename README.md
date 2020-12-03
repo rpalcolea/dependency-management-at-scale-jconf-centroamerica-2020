@@ -1,4 +1,4 @@
-# Dependency Management at Scale - JConf Mexico 2020
+# Dependency Management at Scale - JConf Centroamérica 2020
 
 This repository contains demos for "Dependency Management at Scale" talk @ JConf Centroamérica 2020
 
