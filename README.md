@@ -279,15 +279,13 @@ if you run `./gradlew lintGradle` you should see the following warning
 This project contains lint violations. A complete listing of the violations follows.
 Because none were serious, the build's overall status was unaffected.
 
-warning   unused-dependency                  this dependency should be removed since its artifact is empty (no auto-fix available)
-build.gradle:26
-implementation 'netflix:foo-client:latest.release'
+This project contains lint violations. A complete listing of the violations follows.
+Because none were serious, the build's overall status was unaffected.
 
-warning   unused-dependency                  this dependency should be removed since its artifact is empty (no auto-fix available)
-build.gradle:27
-implementation 'netflix:bar-client:latest.release'
+warning   unused-dependency                  this dependency is unused and can be removed
+build.gradle:23
+implementation 'com.google.guava:guava:19.0'
 
-✖ 2 problems (0 errors, 2 warnings)
 ```
 
 This particular rule does not have an auto fix, so we expect users to react based on the project context

@@ -3,21 +3,12 @@
  */
 package info.perezalcolea.dependency.management;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.Collections;
-
 public class App {
     public String getGreeting() {
         return "Hello world.";
     }
 
     public static void main(String[] args) {
-        try {
-            System.out.println(new App().getGreeting());
-            new ObjectMapper().writeValueAsString(Collections.singletonMap("key", "value"));
-        } catch (Exception e) {
-            System.err.print(e);
-        }
+        System.out.println(new App().getGreeting());
     }
 }
