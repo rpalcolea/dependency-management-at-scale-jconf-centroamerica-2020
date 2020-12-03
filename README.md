@@ -115,6 +115,34 @@ shadowJar {
 }
 ```
 
+If you run `./gradlew publishShadowPublicationToBuildRepository`, you should see the jar being published under `build/mavenRepo`.
+
+Inspecting the contents of `myapp-1.0.0.jar` (`jar tf myapp-1.0.0.jar`) results in having all google classes in the JAR under `myapp.shaded.com.google` package and the POM file should not contain Guava:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>info.perezalcolea</groupId>
+  <artifactId>myapp</artifactId>
+  <version>1.0.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>netflix</groupId>
+      <artifactId>foo-client</artifactId>
+      <version>latest.release</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>netflix</groupId>
+      <artifactId>bar-client</artifactId>
+      <version>latest.release</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+</project>
+```
+
 ### resolution-rules-usage
 
 This part of the demo contains examples on how we can affect dependency resolution in our project.
