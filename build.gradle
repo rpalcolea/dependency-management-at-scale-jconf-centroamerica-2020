@@ -5,6 +5,7 @@ plugins {
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id "nebula.resolution-rules" version "7.8.0"
+    id "nebula.lint" version "16.9.1"
 }
 
 repositories {
@@ -53,4 +54,9 @@ shadowJar {
 
 dependencyLocking {
     lockAllConfigurations()
+}
+
+gradleLint {
+    //Rules can be found in https://github.com/nebula-plugins/gradle-lint-plugin/tree/master/src/main/resources/META-INF/lint-rules
+    gradleLint.rules = ['undeclared-dependency']
 }

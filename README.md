@@ -225,7 +225,7 @@ Introduction of gradle lint plugin:
 Also, we add rules dependency to our dependencies:
 
 ```
-dependencies {
+gradleLint {
     //Rules can be found in https://github.com/nebula-plugins/gradle-lint-plugin/tree/master/src/main/resources/META-INF/lint-rules
     gradleLint.rules = ['undeclared-dependency']
 }
