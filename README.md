@@ -173,20 +173,6 @@ Selection reasons:
 com.fasterxml.jackson.core:jackson-core:2.11.0.rc1 -> 2.11.0
 ```
 
-If you run `./gradlew dependencyInsight --dependency guava`, you should see that gradle can't resolve this dependency since we are rejecting it:
-
-```
- Task :dependencyInsight
-Resolution rules could not resolve all dependencies to align configuration ':compileClasspath':
- - com.google.guava:guava:19.0 -> com.google.guava:guava:19.0 - Could not find com.google.guava:guava:19.0.
-Searched in the following locations:
-  - file:/Users/rperezalcolea/Projects/github/rpalcolea/dependency-management-at-scale-jconf-mexico/repo/com/google/guava/guava/19.0/guava-19.0.pom
-If the artifact you are trying to retrieve can be found in the repository but without metadata in 'Maven POM' format, you need to adjust the 'metadataSources { ... }' of the repository declaration.
-com.google.guava:guava:19.0 FAILED
-   Failures:
-      - Could not find com.google.guava:guava:19.0.
-```
-
 If you run `./gradlew dependencyInsight --dependency aws-java-sdk-sqs`, you should see it is aligned now:
 
 ```

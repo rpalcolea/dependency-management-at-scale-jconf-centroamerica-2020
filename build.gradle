@@ -4,6 +4,7 @@ plugins {
     id 'groovy'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id "nebula.resolution-rules" version "7.8.0"
 }
 
 repositories {
@@ -14,9 +15,12 @@ repositories {
 }
 
 dependencies {
+    resolutionRules 'com.netflix.nebula:gradle-resolution-rules:latest.release'
+    resolutionRules files('local-rules.json')
     shadow 'netflix:foo-client:latest.release'
     shadow 'netflix:bar-client:latest.release'
     implementation 'com.google.guava:guava:19.0'
+    shadow 'com.fasterxml.jackson.core:jackson-core:2.11.0.rc1'
 }
 
 application {

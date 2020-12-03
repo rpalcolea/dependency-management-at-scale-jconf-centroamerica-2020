@@ -1,0 +1,16 @@
+{
+  "replace" : [],
+  "substitute": [
+    {
+      "module": "com.fasterxml.jackson.core:jackson-core:2.11.0.rc+",
+      "with": "com.fasterxml.jackson.core:jackson-core:2.11.0",
+      "reason": "pre-release version should not be chosen by default",
+      "author" : "Example Person <person@example.org>",
+      "date": "2020-04-19T16:49:30.394Z"
+    }
+  ],
+  "deny": [],
+  "reject": [],
+  "align": [],
+  "exclude": []
+}
