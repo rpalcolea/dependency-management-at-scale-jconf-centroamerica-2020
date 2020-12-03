@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
     id 'groovy'
     id 'maven-publish'
 }
@@ -18,15 +17,11 @@ dependencies {
     implementation 'com.google.guava:guava:19.0'
 }
 
-application {
-    mainClass.set 'info.perezalcolea.dependency.management.App'
-}
-
 publishing {
     publications {
         myPublication(MavenPublication) {
             groupId = 'info.perezalcolea'
-            artifactId = 'myapp'
+            artifactId = 'mylibrary'
             version = '1.0.0'
 
             from components.java
