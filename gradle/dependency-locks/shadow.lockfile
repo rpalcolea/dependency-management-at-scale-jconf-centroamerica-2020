@@ -1,0 +1,21 @@
+# This is a Gradle generated file for dependency locking.
+# Manual edits can break the build and are not advised.
+# This file is expected to be part of source control.
+com.amazonaws:aws-java-sdk-core:1.11.870
+com.amazonaws:aws-java-sdk-dynamodb:1.11.870
+com.amazonaws:aws-java-sdk-kms:1.11.870
+com.amazonaws:aws-java-sdk-s3:1.11.870
+com.amazonaws:aws-java-sdk-sqs:1.11.870
+com.amazonaws:jmespath-java:1.11.870
+com.fasterxml.jackson.core:jackson-annotations:2.11.0
+com.fasterxml.jackson.core:jackson-core:2.11.0
+com.fasterxml.jackson.core:jackson-databind:2.11.0
+com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.11.0
+commons-codec:commons-codec:1.11
+commons-logging:commons-logging:1.2
+joda-time:joda-time:2.8.1
+netflix:bar-client:1.0.0
+netflix:foo-client:1.0.1
+org.apache.httpcomponents:httpclient:4.5.9
+org.apache.httpcomponents:httpcore:4.4.11
+software.amazon.ion:ion-java:1.0.2

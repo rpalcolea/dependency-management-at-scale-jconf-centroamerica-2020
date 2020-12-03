@@ -197,7 +197,7 @@ dependencyLocking {
 }
 ```
 
-If you run `./gradlew dependencies --writelocks` you should see files being generated under `gradle/dependency-locks.
+If you run `./gradlew dependencies --write-locks` you should see files being generated under `gradle/dependency-locks.
 
 These `.lockfile` files contain the version that was used for the build and will continue using them by enforcing.
 
