@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'application'
     id 'groovy'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
@@ -23,17 +22,13 @@ dependencies {
     shadow 'com.fasterxml.jackson.core:jackson-core:2.11.0.rc1'
 }
 
-application {
-    mainClassName = 'info.perezalcolea.dependency.management.App'
-}
-
 group = 'info.perezalcolea'
 version = '1.0.0'
 
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
-            artifactId = 'myapp'
+            artifactId = 'mylibrary'
             project.shadow.component(publication)
         }
     }
@@ -48,7 +43,7 @@ publishing {
 
 shadowJar {
     archiveClassifier.set null
-    relocate 'com.google', 'myapp.shaded.com.google'
+    relocate 'com.google', 'mylibrary.shaded.com.google'
 }
 
 dependencyLocking {
