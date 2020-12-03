@@ -93,7 +93,7 @@ version = '1.0.0'
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
-            artifactId = 'myapp'
+            artifactId = 'mylibrary'
             project.shadow.component(publication)
         }
     }
@@ -117,14 +117,14 @@ shadowJar {
 
 If you run `./gradlew publishShadowPublicationToBuildRepository`, you should see the jar being published under `build/mavenRepo`.
 
-Inspecting the contents of `myapp-1.0.0.jar` (`jar tf myapp-1.0.0.jar`) results in having all google classes in the JAR under `myapp.shaded.com.google` package and the POM file should not contain Guava:
+Inspecting the contents of `mylibrary-1.0.0.jar` (`jar tf myapp-1.0.0.jar`) results in having all google classes in the JAR under `myapp.shaded.com.google` package and the POM file should not contain Guava:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.perezalcolea</groupId>
-  <artifactId>myapp</artifactId>
+  <artifactId>mylibrary</artifactId>
   <version>1.0.0</version>
   <dependencies>
     <dependency>
