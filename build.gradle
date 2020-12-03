@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'groovy'
     id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
 repositories {
@@ -13,23 +14,23 @@ repositories {
 }
 
 dependencies {
-    implementation 'netflix:foo-client:latest.release'
-    implementation 'netflix:bar-client:latest.release'
+    shadow 'netflix:foo-client:latest.release'
+    shadow 'netflix:bar-client:latest.release'
     implementation 'com.google.guava:guava:19.0'
 }
 
 application {
-    mainClass.set 'info.perezalcolea.dependency.management.App'
+    mainClassName = 'info.perezalcolea.dependency.management.App'
 }
+
+group = 'info.perezalcolea'
+version = '1.0.0'
 
 publishing {
     publications {
-        myPublication(MavenPublication) {
-            groupId = 'info.perezalcolea'
+        shadow(MavenPublication) { publication ->
             artifactId = 'myapp'
-            version = '1.0.0'
-
-            from components.java
+            project.shadow.component(publication)
         }
     }
     repositories {
@@ -38,4 +39,10 @@ publishing {
             url = "$buildDir/mavenRepo"
         }
     }
+}
+
+
+shadowJar {
+    archiveClassifier.set null
+    relocate 'com.google', 'myapp.shaded.com.google'
 }
