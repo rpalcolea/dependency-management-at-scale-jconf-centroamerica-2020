@@ -71,7 +71,7 @@ Introduction of resolution-rules plugin:
   id 'com.github.johnrengelman.shadow' version '6.1.0'
 ```
 
-Modify dependencies to introduce the `shadow` configuration: 
+Modify dependencies to introduce the `shadow` configuration:
 
 ```
 dependencies {
@@ -93,7 +93,7 @@ version = '1.0.0'
 publishing {
     publications {
         shadow(MavenPublication) { publication ->
-            artifactId = 'myapp'
+            artifactId = 'mylibrary'
             project.shadow.component(publication)
         }
     }
@@ -111,20 +111,20 @@ Use `shadowJar` as main jar and relocate google guava:
 ```
 shadowJar {
     archiveClassifier.set null
-    relocate 'com.google', 'myapp.shaded.com.google'
+    relocate 'com.google', 'mylibrary.shaded.com.google'
 }
 ```
 
 If you run `./gradlew publishShadowPublicationToBuildRepository`, you should see the jar being published under `build/mavenRepo`.
 
-Inspecting the contents of `myapp-1.0.0.jar` (`jar tf myapp-1.0.0.jar`) results in having all google classes in the JAR under `myapp.shaded.com.google` package and the POM file should not contain Guava:
+Inspecting the contents of `mylibrary-1.0.0.jar` (`jar tf mylibrary-1.0.0.jar`) results in having all google classes in the JAR under `mylibrary.shaded.com.google` package and the POM file should not contain Guava:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.perezalcolea</groupId>
-  <artifactId>myapp</artifactId>
+  <artifactId>mylibrary</artifactId>
   <version>1.0.0</version>
   <dependencies>
     <dependency>
@@ -141,6 +141,55 @@ Inspecting the contents of `myapp-1.0.0.jar` (`jar tf myapp-1.0.0.jar`) results 
     </dependency>
   </dependencies>
 </project>
+```
+
+If we extract the JAR file and examine the MyLibrary class `javap -c MyLibrary`, we should see that the bytecode reflects the relocation:
+
+```
+Warning: Binary file MyLibrary contains info.perezalcolea.dependency.management.MyLibrary
+Compiled from "MyLibrary.java"
+public class info.perezalcolea.dependency.management.MyLibrary {
+  public info.perezalcolea.dependency.management.MyLibrary();
+    Code:
+       0: aload_0
+       1: invokespecial #14                 // Method java/lang/Object."<init>":()V
+       4: return
+
+  public java.lang.String getGreeting();
+    Code:
+       0: ldc           #20                 // String Hello world.
+       2: areturn
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: ldc           #24                 // String coin
+       2: iconst_3
+       3: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       6: ldc           #32                 // String glass
+       8: iconst_4
+       9: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      12: ldc           #34                 // String pencil
+      14: iconst_1
+      15: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      18: invokestatic  #40                 // Method mylibrary/shaded/com/google/common/collect/ImmutableMap.of:(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Lmylibrary/shaded/com/google/common/collect/ImmutableMap;
+      21: astore_1
+      22: aload_1
+      23: invokeinterface #46,  1           // InterfaceMethod java/util/Map.entrySet:()Ljava/util/Set;
+      28: invokeinterface #52,  1           // InterfaceMethod java/util/Set.stream:()Ljava/util/stream/Stream;
+      33: getstatic     #58                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      36: dup
+      37: invokevirtual #62                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+      40: pop
+      41: invokedynamic #81,  0             // InvokeDynamic #0:accept:(Ljava/io/PrintStream;)Ljava/util/function/Consumer;
+      46: invokeinterface #87,  2           // InterfaceMethod java/util/stream/Stream.forEach:(Ljava/util/function/Consumer;)V
+      51: getstatic     #58                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      54: new           #2                  // class info/perezalcolea/dependency/management/MyLibrary
+      57: dup
+      58: invokespecial #88                 // Method "<init>":()V
+      61: invokevirtual #90                 // Method getGreeting:()Ljava/lang/String;
+      64: invokevirtual #93                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      67: return
+}
 ```
 
 ### resolution-rules-usage
