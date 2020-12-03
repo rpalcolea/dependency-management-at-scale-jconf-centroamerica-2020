@@ -39,5 +39,5 @@ publishing {
 
 shadowJar {
     archiveClassifier.set null
-    relocate 'com.google', 'myapp.shaded.com.google'
+    relocate 'com.google', 'mylibrary.shaded.com.google'
 }
