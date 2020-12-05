@@ -20,7 +20,6 @@ dependencies {
     shadow 'netflix:foo-client:latest.release'
     shadow 'netflix:bar-client:latest.release'
     implementation 'com.google.guava:guava:19.0'
-    shadow 'com.fasterxml.jackson.core:jackson-core:2.11.0.rc1'
 }
 
 group = 'info.perezalcolea'
